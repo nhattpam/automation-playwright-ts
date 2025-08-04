@@ -1,0 +1,11 @@
+{
+  "default": {
+    "paths": ["src/test/api/features/**/*.feature", "src/test/ui/features/**/*.feature"],
+    "requireModule": ["ts-node/register"],
+    "require": [
+      "src/test/api/steps/**/*.ts",
+      "src/test/api/support/**/*.ts"
+    ],
+    "format": ["progress", "json:reports/cucumber-report.json"]
+  }
+}
