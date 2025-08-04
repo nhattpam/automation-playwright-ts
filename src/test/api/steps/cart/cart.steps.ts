@@ -1,24 +1,14 @@
-import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
+import { Given, When } from '@cucumber/cucumber';
 import { CartAPI } from '../../../../api/CartAPI';
+import { ApiWorld } from '../../../support/world.api';
 
-let response: any;
 const cartAPI = new CartAPI();
-let productId: string;
 
-Given('I have a product with id {string}', async (id: string) => {
-  productId = id;
+Given('I have a product with id {int}', async function (this: ApiWorld, productId: number) {
+  this.productId = productId;
 });
 
-When('I add the product to the cart', async () => {
-  response = await cartAPI.addToCart(productId);
-});
-
-Then('the response status should be {int}', async (statusCode: number) => {
-  expect(response.status()).toBe(statusCode);
-});
-
-Then('the response header {string} should contain {string}', async (headerName: string, expectedValue: string) => {
-  const header = response.headers()[headerName.toLowerCase()];
-  expect(header).toContain(expectedValue);
+When('I add the product to the cart', async function (this: ApiWorld) {
+  if (!this.productId) throw new Error('Product ID is not defined');
+  this.response = await cartAPI.addToCart(this.productId);
 });

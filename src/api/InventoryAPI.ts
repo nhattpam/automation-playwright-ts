@@ -1,8 +1,7 @@
-import { APIClient } from "../utils/apiClient";
+import { inventoryContext } from "../test/support/hooks.api";
 
 export class InventoryAPI {
   async getInventory() {
-    const client = await APIClient.createClient(process.env.BASE_URL_INVENTORY!);
-    return client.get('/inventory');
+    return await inventoryContext.get('/products');
   }
 }

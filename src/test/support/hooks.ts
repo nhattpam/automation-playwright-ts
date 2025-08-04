@@ -1,18 +1,17 @@
 import { Before, After } from '@cucumber/cucumber';
 import { CustomWorld } from './world';
+import { ApiWorld } from './world.api'; // nếu bạn đã có ApiWorld riêng
 
-/**
- * (Optional) Before hook – dùng để reset state nếu cần
- */
-Before(async function (this: CustomWorld) {
-  // Ví dụ: clear storage, reset state, etc.
-  // Không bắt buộc phải có gì ở đây
+Before(async function (this: CustomWorld | ApiWorld) {
+  // Chạy trước mỗi scenario, nếu cần
 });
 
-/**
- * After hook – luôn được gọi sau mỗi scenario
- * → Tự động đóng browser để tránh rò rỉ tài nguyên
- */
-After(async function (this: CustomWorld) {
-  await this.closeBrowser();
+After(async function (this: CustomWorld | ApiWorld) {
+  if (this instanceof CustomWorld) {
+    // UI test → đóng browser
+    if (this.browser) {
+      await this.closeBrowser();
+    }
+  }
+  // API test → không cần close browser
 });

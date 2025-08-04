@@ -1,8 +1,12 @@
-import { APIClient } from "../utils/apiClient";
+import { cartContext } from "../test/support/hooks.api";
 
 export class CartAPI {
-  async addToCart(productId: string) {
-    const client = await APIClient.createClient(process.env.BASE_URL_CART!);
-    return client.post('/cart', { data: { productId, quantity: 1 } });
+  async addToCart(productId: number) {
+    return await cartContext.post('/carts/add', {
+      data: {
+        userId: 1,
+        products: [{ id: productId, quantity: 1 }]
+      }
+    });
   }
 }

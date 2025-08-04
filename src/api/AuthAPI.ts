@@ -1,9 +1,10 @@
-import { APIClient } from "../utils/apiClient";
-
+import { authContext } from "../test/support/hooks.api";
 
 export class AuthAPI {
-  async login(email: string, password: string) {
-    const client = await APIClient.createClient(process.env.BASE_URL_AUTH!);
-    return client.post('/login', { data: { email, password } });
+  async login(username: string, password: string) {
+    return await authContext.post('/auth/login', {
+      data: { username, password },
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 }
