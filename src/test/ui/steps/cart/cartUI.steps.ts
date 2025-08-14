@@ -1,20 +1,18 @@
 import { Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
 import { CustomWorld } from '../../../support/world';
+import { CartPage } from '../../../../pages/cart/CartPage';
 
 Then('the cart title should be visible', async function (this: CustomWorld) {
-  await expect(this.page.locator('.title')).toHaveText('Your Cart');
+  const cartPage = new CartPage(this.page);
+  await cartPage.assertPageLoaded();
 });
 
 Then('the cart item should show name, price, description and quantity', async function (this: CustomWorld) {
-  const item = this.page.locator('.cart_item');
-
-  await expect(item.locator('.inventory_item_name')).toBeVisible();
-  await expect(item.locator('.inventory_item_desc')).toBeVisible();
-  await expect(item.locator('.inventory_item_price')).toBeVisible();
-  await expect(item.locator('.cart_quantity')).toBeVisible();
+  const cartPage = new CartPage(this.page);
+  await cartPage.assertCartItemStructure();
 });
 
 Then('the checkout button should be visible', async function (this: CustomWorld) {
-  await expect(this.page.locator('[data-test="checkout"]')).toBeVisible();
+  const cartPage = new CartPage(this.page);
+  await cartPage.assertCheckoutButtonVisible();
 });

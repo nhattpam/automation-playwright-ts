@@ -1,33 +1,39 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../../../support/world';
+import { LoginPage } from '../../../../pages/authentication/LoginPage';
 
 Then('I should see the SauceDemo logo', async function (this: CustomWorld) {
-  await expect(this.page.locator('.login_logo')).toBeVisible();
+  const loginPage = new LoginPage(this.page);
+  await loginPage.assertLogoVisible();
 });
 
 Then('I should see the username input', async function (this: CustomWorld) {
-  await expect(this.page.locator('#user-name')).toBeVisible();
+  const loginPage = new LoginPage(this.page);
+  await loginPage.assertUsernameInputVisible();
 });
 
 Then('I should see the password input', async function (this: CustomWorld) {
-  await expect(this.page.locator('#password')).toBeVisible();
+  const loginPage = new LoginPage(this.page);
+  await loginPage.assertPasswordInputVisible();
 });
 
 Then('I should see the login button', async function (this: CustomWorld) {
-  await expect(this.page.locator('#login-button')).toBeVisible();
+  const loginPage = new LoginPage(this.page);
+  await loginPage.assertLoginButtonVisible();
 });
 
 Then('the username placeholder should be {string}', async function (this: CustomWorld, expected: string) {
-  const value = await this.page.getAttribute('#user-name', 'placeholder');
-  expect(value).toBe(expected);
+  const loginPage = new LoginPage(this.page);
+  expect(await loginPage.getUsernamePlaceholder()).toBe(expected);
 });
 
 Then('the password placeholder should be {string}', async function (this: CustomWorld, expected: string) {
-  const value = await this.page.getAttribute('#password', 'placeholder');
-  expect(value).toBe(expected);
+  const loginPage = new LoginPage(this.page);
+  expect(await loginPage.getPasswordPlaceholder()).toBe(expected);
 });
 
 When('I click the login button', async function (this: CustomWorld) {
-  await this.page.click('#login-button');
+  const loginPage = new LoginPage(this.page);
+  await loginPage.clickLoginButton();
 });
